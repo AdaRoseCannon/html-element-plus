@@ -4,7 +4,9 @@
 
 I have extended HTMLElement as `HTMLElementPlus` to contain the bits of functionality I keep reimplementing.
 
-## Example:
+[Features](https://github.com/AdaRoseCannon/html-element-plus#features)
+
+## Example
 
 ```js
 import HTMLElementPlus from 'https://unpkg.com/html-element-plus/html-element-plus.js';
