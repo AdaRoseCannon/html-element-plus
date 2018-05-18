@@ -1,0 +1,11 @@
+{
+  "name": "html-element-plus",
+  "version": "1.0.0",
+  "description": "Helper for Web Component Custom Elements",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ada Rose Cannon",
+  "license": "MIT"
+}
