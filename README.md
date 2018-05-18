@@ -4,7 +4,8 @@
 
 I have extended HTMLElement as `HTMLElementPlus` to contain the bits of functionality I keep reimplementing.
 
-[Features](https://github.com/AdaRoseCannon/html-element-plus#features)
+* [Features](https://github.com/AdaRoseCannon/html-element-plus#features)
+* [Example](https://github.com/AdaRoseCannon/html-element-plus#example)
 
 ## Example
 
