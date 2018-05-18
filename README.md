@@ -4,35 +4,7 @@
 
 I have extended HTMLElement as `HTMLElementPlus` to contain the bits of functionality I keep reimplementing.
 
-There is an example usage in the HTML file below. And a Glitch here: [Edit on Glitch](https://glitch.com/~web-component-plus/)
-
-### Attribute Callbacks
-
-```
-class MyEl extends HTMLElementPlus {...
-```
-
-Provides a callback when all attributes have been parsed, rather than one-by-one. `allAttributesChangedCallback` useful for waiting to handle all at once.
-
-`allAttributesChangedCallback` gets called with an object with parsed attributes.
-
-The parser can be set by setting the function `static parseAttributeValue(name, value)` in the class.
-
-Default attribute values can be provided by setting the `static defaultAttributeValue(name)` function, so you can provide sensible fallback values.
-
-### Query the shadow dom by reference
-
-E.g. an element in the shadow dom: `<span ref="foobar"></span>` can be queried using `this.refs.foobar`;
-
-### Easy event firing.
-
-Fire an event using `this.emitEvent('event-name', {foo: 'bar'});`
-
-This can be listed for using, `el.addEventListener`;
-
-### Automatic Template Creation
-
-Setting templateHTML in your class to return a string of you template contents will build and populate a template. It will automatically run shadyDOM if you are using the polyfill. E.g.
+## Example:
 
 ```js
 import HTMLElementPlus from 'https://unpkg.com/html-element-plus/html-element-plus.js';
@@ -77,3 +49,33 @@ class MyElement extends HTMLElementPlus {
 
 customElements.define('my-element', MyElement);
 ```
+
+## Features
+
+These are the current features.
+
+### Collected Attribute Change Callbacks
+
+Provides a callback when all attributes have been parsed, rather than one-by-one. `allAttributesChangedCallback` useful for waiting to handle all at once.
+
+`allAttributesChangedCallback` gets called with an object with parsed attributes.
+
+The parser can be set by setting the function `static parseAttributeValue(name, value)` in the class.
+
+Default attribute values can be provided by setting the `static defaultAttributeValue(name)` function, so you can provide sensible fallback values.
+
+This also gets called during the constructor if there are no attributes listed.
+
+### Query the shadow dom by reference
+
+E.g. an element in the shadow dom: `<span ref="foobar"></span>` can be queried using `this.refs.foobar`;
+
+### Easy event firing.
+
+Fire an event using `this.emitEvent('event-name', {foo: 'bar'});`
+
+This can be listed for using, `el.addEventListener`;
+
+### Automatic Template Creation
+
+Setting templateHTML in your class to return a string of you template contents will build and populate a template. It will automatically run shadyDOM if you are using the polyfill. E.g.
