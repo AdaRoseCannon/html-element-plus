@@ -53,6 +53,65 @@ class MyElement extends HTMLElementPlus {
 customElements.define('my-element', MyElement);
 ```
 
+## Example Using Mixins
+
+```js
+
+/* Pick one or more of the following features:
+
+
+allAttributesChanged:
+* Adds a callback for when all the attributes have been parsed.
+* Also provides optional methods for Attribute parsing and providing default values
+
+	static get observedAttributes() {}
+	static defaultAttributeValue (name) {}
+	static parseAttributeValue (name, value) {}
+
+emitEvent
+* Provides el.emitEvent(name, details) for quick event firing
+
+templateHelper
+* Provides management for templates and automatically running ShadyCSS
+* Set `static get templateHTML` to define your html, use el.templateContent to get it out
+
+refs
+* Access defined elements in the shadow dom by using the `ref="foo"` attribute.
+* Read it later using el.refs.foo 
+
+*/
+import {
+	allAttributesChanged,
+	refs
+} from 'https://unpkg.com/html-element-plus/mixins.js';
+
+class MyElement extends refs(allAttributesChanged(HTMLElement)) {
+	constructor () {
+		super();
+	}
+
+	allAttributesChangedCallback() {
+		if (!this.shadowRoot) {
+			this.attachShadow({mode: 'open'});
+			this.shadowRoot.innerHTML = '<div ref="test" id="test-div"></div>';
+		}
+	}
+
+	static get observedAttributes() {
+		return ['one', 'two'];
+	}
+
+	static defaultAttributeValue (name) {
+		if (name === 'one') return this.parseAttributeValue('one', '1');
+		if (name === 'two') return this.parseAttributeValue('two', '2');
+	}
+
+	static parseAttributeValue (name, value) {
+		return parseInt(value);
+	}
+}
+```
+
 ## Features
 
 These are the current features.

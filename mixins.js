@@ -53,7 +53,7 @@ const emitEvent = base =>
 		}
 	};
 
-const AllAttributesChanged = base =>
+const allAttributesChanged = base =>
 	class extends base {
 		constructor(...args) {
 			super(...args);
@@ -118,11 +118,11 @@ const AllAttributesChanged = base =>
 	};
 
 const HTMLElementPlus = refs(
-	AllAttributesChanged(templateHelper(emitEvent(HTMLElement)))
+	allAttributesChanged(templateHelper(emitEvent(HTMLElement)))
 );
 
 export {
-	AllAttributesChanged,
+	allAttributesChanged,
 	emitEvent,
 	templateHelper,
 	refs,
