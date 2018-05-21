@@ -6,7 +6,7 @@ I have extended HTMLElement as `HTMLElementPlus` to contain the bits of function
 
 * [Features](https://github.com/AdaRoseCannon/html-element-plus#features)
 * [Example](https://github.com/AdaRoseCannon/html-element-plus#example)
-* [Example as Mixins for other Web Component Libraries](https://github.com/AdaRoseCannon/html-element-plus/tree/mixins#example-using-mixins)
+* [Example as Mixins for other Web Component Libraries](https://github.com/AdaRoseCannon/html-element-plus#example-using-mixins)
 
 ## Example
 
