@@ -1,0 +1,138 @@
+<html>
+
+<head>
+</head>
+
+<body>
+	<script type="module">
+
+		import { refs, HTMLElementPlus } from './mixins.js';
+		import html from './noop.js';
+		
+		const tests = [];
+
+		function pass(name) {
+			results.insertAdjacentHTML('beforeend', `<div>${name}: passed. </div>`);
+		}
+
+		function fail(name) {
+			results.insertAdjacentHTML('beforeend', `<div>${name}: failed. <code><pre>
+				${new Error().stack};	
+			</pre><code></div>`);
+		}		
+
+		function testEl(el, name, test) {
+			const testFn = () => test(document.querySelector(el), pass, fail);
+			testFn.testName = name;
+			tests.push(testFn);	
+		}
+
+		window.addEventListener('load', function () {
+			for (const test of tests) {
+				if (test.testName) results.insertAdjacentHTML('beforeend', `<h2>${test.testName}</h2>`);
+				test();
+			}
+		});
+
+		window.addEventListener('error', function (e) {
+			results.insertAdjacentHTML('beforeend', `<div><code><pre>
+				${e.stack};	
+			</pre><code></div>`);
+		});
+
+		class RefsTest extends refs(HTMLElement) {
+			constructor() {
+				super();
+				this.attachShadow({ mode: 'open' });
+				this.shadowRoot.innerHTML = `
+					<div ref="test" id="test-div"></div>
+				`;
+			}
+		}
+		customElements.define('refs-test', RefsTest);
+
+		testEl('refs-test', '.refs', function (el, pass, fail) {
+			if (el.refs.test.id === 'test-div') {
+				pass('Has found element by ref');
+			} else {
+				fail('Has found element by ref is not "test"');
+			}
+		});
+
+		class IntegrationTest extends HTMLElementPlus {
+			constructor () {
+				super();
+			}
+
+			// Set the HTML for the template
+			static get templateHTML() {
+				return html`
+				<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css" rel="stylesheet" >
+				<slot></slot>
+				<div ref="test" id="test-div"></div>`;
+			}
+
+			allAttributesChangedCallback() {
+				if (!this.shadowRoot) {
+					this.attachShadow({mode: 'open'});
+					this.shadowRoot.appendChild(this.templateContent);
+				}
+			}
+
+			static get observedAttributes() {
+				return ['one', 'two'];
+			}
+
+			static defaultAttributeValue (name) {
+				if (name === 'one') return this.parseAttributeValue('one', '1');
+				if (name === 'two') return this.parseAttributeValue('two', '2');
+			}
+
+			static parseAttributeValue (name, value) {
+				return parseInt(value);
+			}
+
+		}
+		customElements.define('integration-test', IntegrationTest);
+
+		testEl('integration-test', 'Integration Test', function (el, pass, fail) {
+			if (el.refs.test.id === 'test-div') {
+				pass('Has found element by ref');
+			} else {
+				fail('Has found element by ref is not "test"');
+			}
+
+			if (
+				el.__attributesMap.one === 1 &&
+				el.__attributesMap.two === 3
+			) {
+				pass('Attributes Parsed Successfully');
+			} else {
+				fail(`Attributes Have not Been Correctly Parsed, <code><pre>
+					${JSON.stringify(el.__attributesMap, null, 2)}
+				</pre></code>`);
+			}
+
+			const failTimeout = setTimeout(function () {
+				fail('Event Not Fired');
+			}, 100);
+			el.addEventListener('test', function (e) {
+				clearTimeout(failTimeout);
+				if (e.detail.lol === 2) {
+					pass('Event Fired, detail correct.');
+				} else {
+					fail('Event detail not recieved');
+				}
+			});
+			el.emitEvent('test', {lol: 2});
+		});
+
+</script>
+
+	<div id="results"></div>
+	<refs-test></refs-test>
+	<integration-test two="3"></integration-test>
+
+</body>
+
+</html>
