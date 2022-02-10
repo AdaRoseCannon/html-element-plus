@@ -1,5 +1,7 @@
 # HTML Element Plus
 
+2022 - This is still actively maintained, PRs and issues are welcome if you use it and encounter any issues.
+
 ## The bits of Custom Elements I keep reimplementing in one handy class.
 
 I have extended HTMLElement as `HTMLElementPlus` to contain the bits of functionality I keep reimplementing.
